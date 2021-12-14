@@ -1,36 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.HomeActivity">
+    tools:context=".activities.ResultActivity">
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/white"
-        app:headerLayout="@layout/header"
-        app:itemIconPadding="14dp"
-        app:menu="@menu/menu">
-
-        <TextView
-            android:id="@+id/version_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom"
-            android:padding="13sp"
-            android:text="@string/version_1_1"
-            android:textAlignment="center"
-            android:textColor="@color/black" />
-    </com.google.android.material.navigation.NavigationView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_lay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -63,32 +47,20 @@
                     android:text="@string/app_name"
                     android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/nav_menu"
+                    app:layout_constraintStart_toEndOf="@+id/ic_back"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/nav_menu"
+                    android:id="@+id/ic_back"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginStart="15dp"
                     android:minHeight="?actionBarSize"
-                    android:src="@drawable/ic_baseline_menu_24"
+                    android:src="@drawable/ic_baseline_arrow_back_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/title" />
 
-
-                <!--            <com.airbnb.lottie.LottieAnimationView-->
-                <!--                android:id="@+id/lottie_whatsapp"-->
-                <!--                android:layout_width="40dp"-->
-                <!--                android:layout_height="40dp"-->
-                <!--                android:layout_marginEnd="16dp"-->
-                <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--                app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                app:layout_constraintTop_toTopOf="parent"-->
-                <!--                app:lottie_autoPlay="true"-->
-                <!--                app:lottie_fileName="whatsapp.json"-->
-                <!--                app:lottie_loop="true" />-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -103,6 +75,15 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/today_result"
+                        android:layout_width="match_parent"
+                        android:layout_height="70sp"
+                        android:text="@string/today_result"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/result"
                         android:layout_width="match_parent"
                         android:layout_height="70sp"
@@ -111,32 +92,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/news"
-                        android:layout_width="match_parent"
-                        android:layout_height="70sp"
-                        android:text="@string/news"
-                        android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/guessing"
-                        android:layout_width="match_parent"
-                        android:layout_height="70sp"
-                        android:text="@string/guessing"
-                        android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/chart"
-                        android:layout_width="match_parent"
-                        android:layout_height="70sp"
-                        android:text="@string/chart"
-                        android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                 </LinearLayout>
             </ScrollView>
@@ -145,4 +100,4 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.drawerlayout.widget.DrawerLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

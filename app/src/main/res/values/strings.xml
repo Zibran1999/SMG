@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">SMG</string>
+    <string name="version_1_1">version: 1.0</string>
+    <string name="result">All Result</string>
+    <string name="chart">Chart</string>
+    <string name="guessing">Guessing</string>
+    <string name="news">News</string>
+    <string name="home">Home</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="rate_app">Rate App</string>
+    <string name="share_app">Share App</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="today_result">Today Result</string>
 </resources>

@@ -15,21 +15,27 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onesignal.OSNotificationOpenedResult;
 import com.onesignal.OneSignal;
-import com.sumitapps.sattamatkaguru.R;
+import com.sumitapps.sattamatkaguru.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
 
     private static final String ONESIGNAL_APP_ID = "da5be7cf-cc61-4d56-a950-83b5f31e2577";
 
     int REQUEST_CODE = 11;
+    private ActivityHomeBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(binding.getRoot());
+        binding.result.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ResultActivity.class)));
+        binding.news.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), NewsActivity.class)));
+        binding.guessing.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), WebViewActivity.class)));
+        binding.chart.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), PanelChartActivity.class)));
         inAppUpdate();
         oneSignal();
     }
@@ -56,6 +62,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -64,18 +71,20 @@ public class HomeActivity extends AppCompatActivity {
             if (resultCode != RESULT_OK) {
                 Log.d("DDDDD", "Downloading Failed" + resultCode);
             }
-        }else {
+        } else {
             Toast.makeText(HomeActivity.this, "Downloading Failed", Toast.LENGTH_SHORT).show();
         }
     }
-    public void oneSignal(){
+
+    public void oneSignal() {
         OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
         // OneSignal Initialization
         OneSignal.initWithContext(this);
         OneSignal.setNotificationOpenedHandler(new ExampleNotificationOpenedHandler());
         OneSignal.setAppId(ONESIGNAL_APP_ID);
     }
-    private class ExampleNotificationOpenedHandler implements OneSignal.OSNotificationOpenedHandler{
+
+    private class ExampleNotificationOpenedHandler implements OneSignal.OSNotificationOpenedHandler {
 
         @Override
         public void notificationOpened(OSNotificationOpenedResult result) {
