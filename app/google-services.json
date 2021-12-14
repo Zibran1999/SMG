@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "690085800126",
+    "project_id": "skmg-e941e",
+    "storage_bucket": "skmg-e941e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690085800126:android:36d1e1864b6f0eaa9c16ef",
+        "android_client_info": {
+          "package_name": "com.sumitapps.sattamatkaguru"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "690085800126-rpv2poho1jafnbhp2disckb42rgaad1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz1ocTv_ADRl1wDPHgUZn8a8Yz8sQ_ghY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "690085800126-rpv2poho1jafnbhp2disckb42rgaad1g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
