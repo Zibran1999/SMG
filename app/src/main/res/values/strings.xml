@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SMG</string>
-    <string name="version_1_1">version: 1.0</string>
+    <string name="version_1_1">version</string>
     <string name="result">All Result</string>
     <string name="chart">Chart</string>
     <string name="guessing">Guessing</string>
@@ -11,4 +11,7 @@
     <string name="share_app">Share App</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="today_result">Today Result</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
+    <string name="todo">TODO</string>
 </resources>

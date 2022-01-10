@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SMG">
         <activity
+            android:name=".activities.NewsDataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PrivacyPolicy"
+            android:exported="false" />
+        <activity
             android:name=".activities.PanelChartActivity"
             android:exported="false" />
         <activity
@@ -42,6 +48,9 @@
         <meta-data
             android:name="firebase_performance_logcat_enabled"
             android:value="true" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
