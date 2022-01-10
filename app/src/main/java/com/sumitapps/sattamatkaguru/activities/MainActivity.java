@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             new Handler().postDelayed(() -> {
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 finish();
-            }, 2000);
+            }, 100);
         }
     }
 
