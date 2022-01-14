@@ -1,4 +1,4 @@
-package com.sumitapps.sattamatkaguru.models;
+package com.gk.smgadmin.models;
 
 import android.app.Application;
 
@@ -37,10 +37,10 @@ public class PageViewModel extends AndroidViewModel {
         return repository.getChartItemLiveData();
     }
 
-    public LiveData<TodayResultModelList> getTodayResultList(){
-        return repository.getTodayResultLiveData();
-    }
-
+//    public LiveData<TodayResultModelList> getTodayResultList(){
+//        return repository.getTodayResultLiveData();
+//    }
+//
     public LiveData<BannerImageModleList> getBannerImageList(){
         return repository.getBannerImagesLiveData();
     }

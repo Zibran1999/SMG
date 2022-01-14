@@ -21,6 +21,7 @@
         <entry key="..\:/Android Applications/SMG/app/src/main/res/layout/activity_news_data.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/app/src/main/res/layout/activity_panel_chart.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/app/src/main/res/layout/activity_result.xml" value="0.2234375" />
+        <entry key="..\:/Android Applications/SMG/app/src/main/res/layout/activity_today_result.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/app/src/main/res/layout/activity_web_view.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/app/src/main/res/layout/category_item_layout.xml" value="0.9" />
         <entry key="..\:/Android Applications/SMG/app/src/main/res/layout/chart_layout.xml" value="0.2234375" />
@@ -30,11 +31,18 @@
         <entry key="..\:/Android Applications/SMG/app/src/main/res/layout/today_result_item_layout.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/app/src/main/res/menu/menu.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/drawable/item_bg.xml" value="0.2358974358974359" />
+        <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/activity_edit_and_delete.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/activity_main.xml" value="0.2234375" />
+        <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/activity_update_today_result.xml" value="0.2234375" />
+        <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/banner_image_layout.xml" value="0.2234375" />
+        <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/category_item_layout.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/chart_layout.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/loading.xml" value="0.23541666666666666" />
+        <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/news_layout.xml" value="0.2234375" />
+        <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/today_result_item_layout.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/today_result_layout.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/upload_cat_dialog.xml" value="0.2234375" />
+        <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/upload_image_dialog.xml" value="0.2234375" />
         <entry key="..\:/Android Applications/SMG/smgadmin/src/main/res/layout/upload_news_dialog.xml" value="0.2234375" />
       </map>
     </option>

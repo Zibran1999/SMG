@@ -15,6 +15,10 @@ public interface ApiInterface {
     @POST("upload_category.php")
     Call<MessageModel> uploadCategory(@FieldMap Map<String, String> map);
 
+    @FormUrlEncoded
+    @POST("upload_banner_images.php")
+    Call<MessageModel> uploadBannerImage(@FieldMap Map<String, String> map);
+
 
     @FormUrlEncoded
     @POST("upload_today_result.php")
@@ -28,4 +32,33 @@ public interface ApiInterface {
     @POST("upload_news.php")
     Call<MessageModel> uploadNews(@FieldMap Map<String, String> map);
 
+    // Fetching Data
+
+    @POST("fetch_news.php")
+    Call<NewsModelList> getAllNews();
+
+    @POST("fetch_charts.php")
+    Call<ChartItemModelList> getAllCharts();
+
+    @POST("fetch_category_item.php")
+    Call<CatItemModelList> getAllCatItems();
+
+    // Delete Data
+
+    @FormUrlEncoded
+    @POST("delete_api.php")
+    Call<MessageModel> deleteData(@FieldMap Map<String, String> map);
+
+    @POST("fetch_banner_images.php")
+    Call<BannerImageModleList> getAllBannerImages();
+
+    // Update Data
+
+    @FormUrlEncoded
+    @POST("update_banner_image.php")
+    Call<MessageModel> updateBannerImg(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("update_news.php")
+    Call<MessageModel> updateNews(@FieldMap Map<String, String> map);
 }
