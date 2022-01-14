@@ -43,6 +43,9 @@ public interface ApiInterface {
     @POST("fetch_category_item.php")
     Call<CatItemModelList> getAllCatItems();
 
+    @POST("fetch_today_result.php")
+    Call<TodayResultModelList> getAllTodayResult();
+
     // Delete Data
 
     @FormUrlEncoded
@@ -61,4 +64,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("update_news.php")
     Call<MessageModel> updateNews(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("update_today_result.php")
+    Call<MessageModel> updateTodayResult(@FieldMap Map<String, String> map);
 }

@@ -159,6 +159,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void Set_Visibility_ON() {
         binding.noInternet.setVisibility(View.GONE);
         binding.scrollView.setVisibility(View.VISIBLE);
+        binding.catItemRecyclerView.setVisibility(View.VISIBLE);
         enableNavItems();
         if (count == 2) {
             navigationDrawer();
@@ -168,6 +169,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void Set_Visibility_OFF() {
         binding.noInternet.setVisibility(View.VISIBLE);
         binding.scrollView.setVisibility(View.GONE);
+        binding.catItemRecyclerView.setVisibility(View.GONE);
         disableNavItems();
     }
 

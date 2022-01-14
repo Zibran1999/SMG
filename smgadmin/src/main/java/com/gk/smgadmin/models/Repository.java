@@ -16,7 +16,7 @@ public class Repository {
     private final MutableLiveData<NewsModelList> newsModelLiveData = new MutableLiveData<>();
     private final MutableLiveData<CatItemModelList> catItemLiveData = new MutableLiveData<>();
     private final MutableLiveData<ChartItemModelList> chartItemLiveData = new MutableLiveData<>();
-  //  private final MutableLiveData<TodayResultModelList> todayResultLiveData = new MutableLiveData<>();
+    private final MutableLiveData<TodayResultModelList> todayResultLiveData = new MutableLiveData<>();
     private final MutableLiveData<BannerImageModleList> bannerImageLiveData = new MutableLiveData<>();
 
 
@@ -91,26 +91,26 @@ public class Repository {
         return chartItemLiveData;
     }
 
-//    public LiveData<TodayResultModelList> getTodayResultLiveData(){
-//        Call<TodayResultModelList> call = apiInterface.getAllTodayResult();
-//        call.enqueue(new Callback<TodayResultModelList>() {
-//            @Override
-//            public void onResponse(@NonNull Call<TodayResultModelList> call, @NonNull Response<TodayResultModelList> response) {
-//                if (response.isSuccessful()) {
-//                    todayResultLiveData.setValue(response.body());
-//                } else {
-//                    Log.d("onResponse", response.message());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<TodayResultModelList> call, @NonNull Throwable t) {
-//                Log.d("onResponse error", t.getMessage());
-//            }
-//        });
-//        return todayResultLiveData;
-//    }
-//
+    public LiveData<TodayResultModelList> getTodayResultLiveData(){
+        Call<TodayResultModelList> call = apiInterface.getAllTodayResult();
+        call.enqueue(new Callback<TodayResultModelList>() {
+            @Override
+            public void onResponse(@NonNull Call<TodayResultModelList> call, @NonNull Response<TodayResultModelList> response) {
+                if (response.isSuccessful()) {
+                    todayResultLiveData.setValue(response.body());
+                } else {
+                    Log.d("onResponse", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TodayResultModelList> call, @NonNull Throwable t) {
+                Log.d("onResponse error", t.getMessage());
+            }
+        });
+        return todayResultLiveData;
+    }
+
     public LiveData<BannerImageModleList> getBannerImagesLiveData(){
         Call<BannerImageModleList> call = apiInterface.getAllBannerImages();
         call.enqueue(new Callback<BannerImageModleList>() {
