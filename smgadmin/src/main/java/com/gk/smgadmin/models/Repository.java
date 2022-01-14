@@ -1,4 +1,4 @@
-package com.sumitapps.sattamatkaguru.models;
+package com.gk.smgadmin.models;
 
 import android.util.Log;
 
@@ -16,7 +16,7 @@ public class Repository {
     private final MutableLiveData<NewsModelList> newsModelLiveData = new MutableLiveData<>();
     private final MutableLiveData<CatItemModelList> catItemLiveData = new MutableLiveData<>();
     private final MutableLiveData<ChartItemModelList> chartItemLiveData = new MutableLiveData<>();
-    private final MutableLiveData<TodayResultModelList> todayResultLiveData = new MutableLiveData<>();
+  //  private final MutableLiveData<TodayResultModelList> todayResultLiveData = new MutableLiveData<>();
     private final MutableLiveData<BannerImageModleList> bannerImageLiveData = new MutableLiveData<>();
 
 
@@ -55,7 +55,7 @@ public class Repository {
         Call<CatItemModelList> call = apiInterface.getAllCatItems();
         call.enqueue(new Callback<CatItemModelList>() {
             @Override
-            public void onResponse(Call<CatItemModelList> call, Response<CatItemModelList> response) {
+            public void onResponse(@NonNull Call<CatItemModelList> call, @NonNull Response<CatItemModelList> response) {
                 if (response.isSuccessful()) {
                     catItemLiveData.setValue(response.body());
                 } else {
@@ -64,7 +64,7 @@ public class Repository {
             }
 
             @Override
-            public void onFailure(Call<CatItemModelList> call, Throwable t) {
+            public void onFailure(@NonNull Call<CatItemModelList> call, @NonNull Throwable t) {
                 Log.d("onResponse error", t.getMessage());
             }
         });
@@ -91,31 +91,31 @@ public class Repository {
         return chartItemLiveData;
     }
 
-    public LiveData<TodayResultModelList> getTodayResultLiveData(){
-        Call<TodayResultModelList> call = apiInterface.getAllTodayResult();
-        call.enqueue(new Callback<TodayResultModelList>() {
-            @Override
-            public void onResponse(@NonNull Call<TodayResultModelList> call, @NonNull Response<TodayResultModelList> response) {
-                if (response.isSuccessful()) {
-                    todayResultLiveData.setValue(response.body());
-                } else {
-                    Log.d("onResponse", response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<TodayResultModelList> call, @NonNull Throwable t) {
-                Log.d("onResponse error", t.getMessage());
-            }
-        });
-        return todayResultLiveData;
-    }
-
+//    public LiveData<TodayResultModelList> getTodayResultLiveData(){
+//        Call<TodayResultModelList> call = apiInterface.getAllTodayResult();
+//        call.enqueue(new Callback<TodayResultModelList>() {
+//            @Override
+//            public void onResponse(@NonNull Call<TodayResultModelList> call, @NonNull Response<TodayResultModelList> response) {
+//                if (response.isSuccessful()) {
+//                    todayResultLiveData.setValue(response.body());
+//                } else {
+//                    Log.d("onResponse", response.message());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<TodayResultModelList> call, @NonNull Throwable t) {
+//                Log.d("onResponse error", t.getMessage());
+//            }
+//        });
+//        return todayResultLiveData;
+//    }
+//
     public LiveData<BannerImageModleList> getBannerImagesLiveData(){
         Call<BannerImageModleList> call = apiInterface.getAllBannerImages();
         call.enqueue(new Callback<BannerImageModleList>() {
             @Override
-            public void onResponse(Call<BannerImageModleList> call, Response<BannerImageModleList> response) {
+            public void onResponse(@NonNull Call<BannerImageModleList> call, @NonNull Response<BannerImageModleList> response) {
                 if (response.isSuccessful()){
                     bannerImageLiveData.setValue(response.body());
                 }else {
@@ -124,7 +124,7 @@ public class Repository {
             }
 
             @Override
-            public void onFailure(Call<BannerImageModleList> call, Throwable t) {
+            public void onFailure(@NonNull Call<BannerImageModleList> call, @NonNull Throwable t) {
                 Log.d("onResponse error", t.getMessage());
             }
         });

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.TodayResultActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_bg"
+        android:elevation="4dp"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/today_result_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:minHeight="?actionBarSize"
+            android:text="Today Results"
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/back_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="15dp"
+            android:minHeight="?actionBarSize"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/today_result_title"
+            android:contentDescription="@string/todo"
+            app:tint="@color/black" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.denzcoskun.imageslider.ImageSlider
+                android:id="@+id/image_slider"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:textAlignment="center"
+                app:iss_auto_cycle="true"
+                app:iss_corner_radius="10"
+                app:iss_delay="0"
+                app:iss_error_image="@drawable/ic_launcher_background"
+                app:iss_period="2000"
+                app:iss_placeholder="@drawable/banner"
+                app:iss_selected_dot="@drawable/default_selected_dot"
+                app:iss_unselected_dot="@drawable/default_unselected_dot"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/show_today_result_recyclerview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_slider" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SMG">
         <activity
+            android:name=".activities.TodayResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.NewsDataActivity"
             android:exported="false" />
         <activity

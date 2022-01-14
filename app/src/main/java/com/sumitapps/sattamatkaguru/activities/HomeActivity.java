@@ -58,6 +58,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public static final String BroadCastStringForAction = "checkingInternet";
     private static final String ONESIGNAL_APP_ID = "da5be7cf-cc61-4d56-a950-83b5f31e2577";
     private static final float END_SCALE = 0.7f;
+    CharSequence[] items = {"Item1", "Item2", "Item3"};
     int REQUEST_CODE = 11;
     int count = 1;
     ActivityHomeBinding binding;
@@ -122,13 +123,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        binding.result.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ResultActivity.class)));
+        binding.result.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), ResultActivity.class));
+        });
         binding.news.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), NewsActivity.class)));
 
         binding.guessing.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this,WebViewActivity.class);
-            intent.putExtra("title","Guessing");
-            intent.putExtra("url","www.google.com");
+            Intent intent = new Intent(HomeActivity.this, WebViewActivity.class);
+            intent.putExtra("title", "Guessing");
+            intent.putExtra("url", "www.google.com");
             startActivity(intent);
         });
 
@@ -144,8 +147,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if (catItemModelList != null) {
                 catItemModels.clear();
                 catItemModels.addAll(catItemModelList.getData());
-                Log.d("CatData",catItemModelList.getData().toString());
-                catItemAdapter = new CatItemAdapter(this,this);
+                Log.d("CatData", catItemModelList.getData().toString());
+                catItemAdapter = new CatItemAdapter(this, this);
                 binding.catItemRecyclerView.setAdapter(catItemAdapter);
                 catItemAdapter.updateCatItemList(catItemModels);
                 loadingDialog.dismiss();
@@ -348,9 +351,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onItemClicked(CatItemModel catItemModel) {
-        Intent intent = new Intent(HomeActivity.this,WebViewActivity.class);
-        intent.putExtra("title",catItemModel.getCatName());
-        intent.putExtra("url",catItemModel.getCatUrl());
+        Intent intent = new Intent(HomeActivity.this, WebViewActivity.class);
+        intent.putExtra("title", catItemModel.getCatName());
+        intent.putExtra("url", catItemModel.getCatUrl());
         startActivity(intent);
     }
 

@@ -26,7 +26,7 @@
             android:gravity="center"
             android:minHeight="?actionBarSize"
             android:textColor="@color/white"
-            android:text="@string/app_name"
+            android:text="Results"
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ic_back"
@@ -72,16 +72,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/today_result" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/today_result_recyclerView"
-        android:layout_width="0dp"
-        android:layout_margin="8dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
