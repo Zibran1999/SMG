@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sumitapps.sattamatkaguru.R;
-import com.sumitapps.sattamatkaguru.models.CatItemModel;
 import com.sumitapps.sattamatkaguru.models.ChartModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> {
@@ -44,9 +44,10 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
         return chartModelList.size();
     }
 
-    public void updateChartItemList(List<ChartModel> chartModels){
+    public void updateChartItemList(List<ChartModel> chartModels) {
         chartModelList.clear();
         chartModelList.addAll(chartModels);
+        Collections.reverse(chartModelList);
 
     }
 
@@ -56,6 +57,7 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView chartNameTxt;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             chartNameTxt = itemView.findViewById(R.id.chart_name_txt);

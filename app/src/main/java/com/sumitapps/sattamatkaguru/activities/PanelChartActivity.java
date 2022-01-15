@@ -6,15 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sumitapps.sattamatkaguru.R;
 import com.sumitapps.sattamatkaguru.adapters.ChartAdapter;
 import com.sumitapps.sattamatkaguru.databinding.ActivityPanelChartBinding;
-import com.sumitapps.sattamatkaguru.models.ChartItemModelList;
 import com.sumitapps.sattamatkaguru.models.ChartModel;
 import com.sumitapps.sattamatkaguru.models.PageViewModel;
 import com.sumitapps.sattamatkaguru.utils.CommonMethod;
@@ -43,19 +40,22 @@ public class PanelChartActivity extends AppCompatActivity implements ChartAdapte
         binding.backIcon.setOnClickListener(v -> {
             onBackPressed();
         });
-
         setPenalChart();
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+            setPenalChart();
+            binding.swipeRefreshLayout.setRefreshing(false);
+        });
     }
 
     private void setPenalChart() {
         loadingDialog.show();
         pageViewModel.getChartItemList().observe(this, chartItemModelList -> {
-            if (chartItemModelList!=null){
+            if (chartItemModelList != null) {
                 chartModels.clear();
                 chartModels.addAll(chartItemModelList.getData());
-                Log.d("ChartData",chartItemModelList.getData().toString());
-                Log.d("chartTitle",chartItemModelList.getData().get(0).getChartName().toString());
-                chartAdapter = new ChartAdapter(this,this);
+                Log.d("ChartData", chartItemModelList.getData().toString());
+                Log.d("chartTitle", chartItemModelList.getData().get(0).getChartName().toString());
+                chartAdapter = new ChartAdapter(this, this);
                 binding.penalRecyclerView.setAdapter(chartAdapter);
                 chartAdapter.updateChartItemList(chartModels);
                 loadingDialog.dismiss();
@@ -65,9 +65,9 @@ public class PanelChartActivity extends AppCompatActivity implements ChartAdapte
 
     @Override
     public void onItemClicked(ChartModel chartModel) {
-        Intent intent = new Intent(this,WebViewActivity.class);
-        intent.putExtra("title",chartModel.getChartName());
-        intent.putExtra("url",chartModel.getChartUrl());
+        Intent intent = new Intent(this, WebViewActivity.class);
+        intent.putExtra("title", chartModel.getChartName());
+        intent.putExtra("url", chartModel.getChartUrl());
         startActivity(intent);
     }
 

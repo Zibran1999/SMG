@@ -14,7 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 
-import com.google.android.datatransport.backend.cct.BuildConfig;
+import com.sumitapps.sattamatkaguru.BuildConfig;
 import com.sumitapps.sattamatkaguru.R;
 
 import java.io.UnsupportedEncodingException;

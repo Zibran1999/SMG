@@ -39,7 +39,12 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.NewsI
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         newsRecyclerView.setLayoutManager(layoutManager);
         pageViewModel = new ViewModelProvider(NewsActivity.this).get(PageViewModel.class);
+
         setNewsData(this);
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            setNewsData(this);
+            binding.swipeRefresh.setRefreshing(false);
+        });
     }
 
     private void setNewsData(Context context) {

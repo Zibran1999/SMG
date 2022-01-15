@@ -1,11 +1,11 @@
 package com.sumitapps.sattamatkaguru.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.sumitapps.sattamatkaguru.BuildConfig;
 import com.sumitapps.sattamatkaguru.R;
 import com.sumitapps.sattamatkaguru.adapters.TodayResultAdapter;
 import com.sumitapps.sattamatkaguru.databinding.ActivityTodayResultBinding;
@@ -51,9 +52,16 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
         binding.backIcon.setOnClickListener(v -> {
             onBackPressed();
         });
+        imageSlider = findViewById(R.id.image_slider);
+
         showTodayResult();
         showBannerImages();
-        imageSlider = findViewById(R.id.image_slider);
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+            showTodayResult();
+            showBannerImages();
+            binding.swipeRefreshLayout.setRefreshing(false);
+        });
+
     }
 
     private void showBannerImages() {
@@ -74,7 +82,7 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
                 imageSlider.setImageList(slideModels);
                 imageSlider.setItemClickListener(i -> {
                     url1 = bannerImageModelList2.get(i).getImageUrl();
-                   openWebPage(url1);
+                    openWebPage(url1);
                 });
             }
         });
@@ -101,8 +109,28 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
 
     @Override
     public void onItemClicked(TodayResultModel todayResultModel) {
+//        देशावर(आज का रिजल्ट =54) यहाँ से अप्प इनस्टॉल करें
+        String shareMessage = todayResultModel.getResName() + " (आज का रिजल्ट = " + todayResultModel.getNewNo() + ") यहाँ से अप्प इनस्टॉल करें\n\n";
+
+
+        try {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.app_name);
+//            String shareMessage = "\nLet me recommend you this application\n\n";
+
+            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
+            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            startActivity(Intent.createChooser(shareIntent, "choose one"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
+
+    @SuppressLint("QueryPermissionsNeeded")
     public void openWebPage(String url) {
         Uri webpage = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
@@ -110,6 +138,7 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
             startActivity(intent);
         }
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

@@ -16,6 +16,7 @@ import com.sumitapps.sattamatkaguru.R;
 import com.sumitapps.sattamatkaguru.models.NewsModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
@@ -54,6 +55,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public void updateNewsList(List<NewsModel> newsModels) {
         newsModelList.clear();
         newsModelList.addAll(newsModels);
+        Collections.reverse(newsModelList);
         notifyDataSetChanged();
     }
 
