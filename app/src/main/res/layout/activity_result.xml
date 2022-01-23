@@ -50,12 +50,12 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/today_result"
         android:layout_width="match_parent"
-        android:layout_height="70sp"
+        android:layout_height="140sp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/today_result"
-        android:textSize="20sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
@@ -63,12 +63,12 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/all_result"
         android:layout_width="match_parent"
-        android:layout_height="70sp"
+        android:layout_height="140sp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/result"
-        android:textSize="20sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/today_result" />

@@ -92,6 +92,20 @@ public class CommonMethod {
         return loadingDialog;
     }
 
+    public static void contactUs(Context context) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setPackage("com.google.android.gm");
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL, new String[]{"help.dreamteam11@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "Hello");
+        i.putExtra(Intent.EXTRA_TEXT, "I need some help regarding ");
+        try {
+            context.startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(context, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
 //    public static void interstitialAds(Context context) {
 //

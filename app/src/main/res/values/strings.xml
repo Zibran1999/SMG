@@ -1,16 +1,16 @@
 <resources>
-    <string name="app_name">SMG</string>
+    <string name="app_name">Satta Matka Guru</string>
     <string name="version_1_1">version</string>
-    <string name="result">All Result</string>
-    <string name="chart">Chart</string>
-    <string name="guessing">Guessing</string>
-    <string name="news">News</string>
+    <string name="result">SATTA Result</string>
+    <string name="chart">SATTA Penal Chart</string>
+    <string name="guessing">SATTA Guessing</string>
+    <string name="news">Latest News</string>
     <string name="home">Home</string>
     <string name="contact_us">Contact Us</string>
     <string name="rate_app">Rate App</string>
-    <string name="share_app">Share App</string>
+    <string name="share_app">Share with friends</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="today_result">Today Result</string>
+    <string name="today_result">आज का Result</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
     <string name="todo">TODO</string>

@@ -110,7 +110,7 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
     @Override
     public void onItemClicked(TodayResultModel todayResultModel) {
 //        देशावर(आज का रिजल्ट =54) यहाँ से अप्प इनस्टॉल करें
-        String shareMessage = todayResultModel.getResName() + " (आज का रिजल्ट = " + todayResultModel.getNewNo() + ") यहाँ से अप्प इनस्टॉल करें\n\n";
+        String shareMessage = todayResultModel.getResName() + " (आज का रिजल्ट = " + todayResultModel.getNewNo() + ") यहाँ से " + getString(R.string.app_name) + " App इनस्टॉल करें\n\n";
 
 
         try {
