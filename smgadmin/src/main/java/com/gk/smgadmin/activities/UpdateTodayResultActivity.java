@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,9 +28,12 @@ import com.gk.smgadmin.utils.CommonMethod;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,6 +62,10 @@ public class UpdateTodayResultActivity extends AppCompatActivity implements Toda
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         binding.todayResultRecyclerview.setLayoutManager(layoutManager);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(binding.todayResultRecyclerview);
+
         fetchTodayResult();
     }
 
@@ -93,6 +101,7 @@ public class UpdateTodayResultActivity extends AppCompatActivity implements Toda
             String resTitle = todayResultModel.getResName();
             String resTime = todayResultModel.getResultTime();
             String nextNo = todayResultModel.getNewNo();
+
             uploadTodayResultDialog(itemId,resTitle,resTime,nextNo);
         }).show();
     }
@@ -155,6 +164,7 @@ public class UpdateTodayResultActivity extends AppCompatActivity implements Toda
                 if (response.isSuccessful()){
                     Toast.makeText(UpdateTodayResultActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     fetchTodayResult();
+
                     todayResultDialog.dismiss();
                 }else {
                     Toast.makeText(UpdateTodayResultActivity.this, response.body().getError(), Toast.LENGTH_SHORT).show();
@@ -193,4 +203,24 @@ public class UpdateTodayResultActivity extends AppCompatActivity implements Toda
             }
         });
     }
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP|ItemTouchHelper.DOWN|ItemTouchHelper.START|ItemTouchHelper.END,0) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder,
+                              @NonNull RecyclerView.ViewHolder target) {
+
+            int fromPosition = viewHolder.getAdapterPosition();
+            int toPosition = target.getAdapterPosition();
+            Collections.swap(resultModelList,fromPosition,toPosition);
+            Objects.requireNonNull(binding.todayResultRecyclerview.getAdapter()).notifyItemMoved(fromPosition,toPosition);
+
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+        }
+    };
 }

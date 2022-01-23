@@ -2,6 +2,7 @@ package com.sumitapps.sattamatkaguru.adapters;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.sumitapps.sattamatkaguru.models.TodayResultModel;
 import com.sumitapps.sattamatkaguru.utils.MyDillUtilCallBack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TodayResultAdapter extends RecyclerView.Adapter<TodayResultAdapter.ViewHolder> {
@@ -65,13 +67,16 @@ public class TodayResultAdapter extends RecyclerView.Adapter<TodayResultAdapter.
             super.onBindViewHolder(holder, position, payloads);
 
         } else {
-            Bundle bundle = (Bundle) payloads.get(0);
+            Bundle bundle = (Bundle) payloads.get(position);
             for (String key : bundle.keySet()) {
                 if (key.equals("NewNo")) {
                     holder.todayResultNo.setText("New Result\n" + "{" + bundle.getString("NewNo") + "}");
 
                 }
             }
+
+            Log.d("newPos",String.valueOf(position));
+           Collections.swap(todayResultModelList,position,0);
         }
     }
 

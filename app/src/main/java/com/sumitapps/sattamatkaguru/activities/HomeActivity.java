@@ -270,11 +270,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 finish();
                 break;
             case R.id.nav_contact:
-                try {
-                    CommonMethod.whatsApp(getApplicationContext());
-                } catch (UnsupportedEncodingException | PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
+               CommonMethod.contactUs(this);
                 break;
             case R.id.nav_rate:
                 CommonMethod.rateApp(getApplicationContext());

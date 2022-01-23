@@ -63,16 +63,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void Set_Visibility_ON() {
         binding.tvNotConnected.setVisibility(View.GONE);
-
+        binding.lottie.setVisibility(View.VISIBLE);
         if (count == 2) {
             new Handler().postDelayed(() -> {
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 finish();
-            }, 100);
+            }, 3000);
         }
     }
 
     private void Set_Visibility_OFF() {
+        binding.lottie.setVisibility(View.GONE);
         binding.tvNotConnected.setVisibility(View.VISIBLE);
     }
 
