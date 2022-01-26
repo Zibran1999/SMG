@@ -3,11 +3,11 @@ package com.gk.smgadmin.activities;
 import static com.gk.smgadmin.activities.MainActivity.imageStore;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -67,10 +67,10 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
     ApiInterface apiInterface;
     Map<String, String> map = new HashMap<>();
     String itemId, encodedImage, bannerImageUrl;
-    Dialog uploadBannerImagesDialog,newsUploadDialog;
-    ImageView chooseBannerImage,chooseImage;
-    EditText imageTitleTxt, imageURlTxt,newsTitle,newsDesc;
-    Button uploadBannerImageBtn, cancelBtn,uploadNewsBtn;
+    Dialog uploadBannerImagesDialog, newsUploadDialog, todayResultDialog;
+    ImageView chooseBannerImage, chooseImage;
+    EditText  imageURlTxt, newsTitle, newsDesc, resultTimeTxt, nextNoTxt;
+    Button uploadBannerImageBtn, cancelBtn, uploadNewsBtn, uploadTodayResultBtn;
     ActivityResultLauncher<String> launcher;
     Bitmap bitmap;
 
@@ -90,9 +90,9 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
 
         launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
             if (result != null) {
-                if (chooseBannerImage!=null) {
+                if (chooseBannerImage != null) {
                     Glide.with(this).load(result).into(chooseBannerImage);
-                }else{
+                } else {
                     Glide.with(this).load(result).into(chooseImage);
                 }
 
@@ -126,10 +126,10 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
     private void fetchNews() {
         loadingDialog.show();
         pageViewModel.getNews().observe(this, newsModelList -> {
-            if (newsModelList != null){
+            if (newsModelList != null) {
                 newsModels.clear();
                 newsModels.addAll(newsModelList.getData());
-                newsAdapter = new NewsAdapter(this,this);
+                newsAdapter = new NewsAdapter(this, this);
                 binding.newsRecyclerview.setAdapter(newsAdapter);
                 newsAdapter.updateNewsList(newsModels);
                 loadingDialog.dismiss();
@@ -181,19 +181,32 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
 
     @Override
     public void onItemClicked(CatItemModel catItemModel) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
-        builder.setTitle("Delete Category");
-        builder.setMessage("Do you want to delete this item?");
-        builder.setNegativeButton("Cancel", (dialog, which) -> {
+        String catItemId = catItemModel.getId();
+        String catTitle = catItemModel.getCatName();
+        String[] string = new String[]{"Upload Data",
+                "Upload Banner Image", "Delete Category"};
 
-        }).setPositiveButton("Delete", (dialog, which) -> {
-            loadingDialog.show();
-            itemId = catItemModel.getId();
-            map.put("id", itemId);
-            map.put("title", "category");
-            deleteData(map, "category");
-        });
-        builder.show();
+        new MaterialAlertDialogBuilder(this, R.style.CustomAlertDialog).setTitle("Choose your Target")
+                .setItems(string, (dialog, which) -> {
+                    switch (which) {
+                        case 0:
+                            uploadTodayResultDialog(catItemId,catTitle);
+                            break;
+                        case 1:
+                            showBannerImagesDialog(catItemId,catTitle);
+                            break;
+
+                        case 2:
+                            loadingDialog.show();
+
+                            itemId = catItemModel.getId();
+                            map.put("id", itemId);
+                            map.put("title", "category");
+                            deleteData(map, "category");
+                            break;
+                    }
+
+                }).show();
     }
 
     @Override
@@ -224,16 +237,15 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
             loadingDialog.show();
             itemId = bannerImageModel.getId();
             map.put("id", itemId);
-            map.put("path","Banner_Images/"+bannerImageModel.getImage());
+            map.put("path", "Banner_Images/" + bannerImageModel.getImage());
             map.put("title", "banner");
             deleteData(map, "banner");
 
         }).setNeutralButton("Edit", (dialog, which) -> {
             itemId = bannerImageModel.getId();
             String img = bannerImageModel.getImage();
-            String imgTitle = bannerImageModel.getTitle();
             String imgUrl = bannerImageModel.getImageUrl();
-            uploadBannerImagesDialog(itemId, img, imgTitle, imgUrl);
+            updateBannerImagesDialog(itemId, img, imgUrl);
         }).show();
     }
 
@@ -247,21 +259,83 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
         }).setPositiveButton("Delete", (dialog, which) -> {
             loadingDialog.show();
             itemId = newsModel.getId();
-            map.put("id",itemId);
-            map.put("path","News_Images/"+newsModel.getImage());
-            map.put("title","news");
-            deleteData(map,"news");
+            map.put("id", itemId);
+            map.put("path", "News_Images/" + newsModel.getImage());
+            map.put("title", "news");
+            deleteData(map, "news");
 
         }).setNeutralButton("Edit", (dialog, which) -> {
             itemId = newsModel.getId();
             String img = newsModel.getImage();
             String title = newsModel.getTitle();
             String desc = newsModel.getDesc();
-            newsUploadDialog(itemId,img,title,desc);
+            newsUploadDialog(itemId, img, title, desc);
         }).show();
     }
 
-    public void uploadBannerImagesDialog(String itemId, String img, String imgTitle, String imgUrl) {
+    private void uploadTodayResultDialog(String catItemId, String resTitle) {
+        todayResultDialog = new Dialog(this);
+        todayResultDialog.setContentView(R.layout.today_result_layout);
+        todayResultDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        todayResultDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.item_bg));
+        todayResultDialog.setCancelable(false);
+        todayResultDialog.show();
+
+        resultTimeTxt = todayResultDialog.findViewById(R.id.result_time);
+        nextNoTxt = todayResultDialog.findViewById(R.id.new_no);
+        uploadTodayResultBtn = todayResultDialog.findViewById(R.id.upload_today_result_btn);
+        Button cancelBtn = todayResultDialog.findViewById(R.id.today_cancel);
+        cancelBtn.setOnClickListener(v -> {
+            todayResultDialog.dismiss();
+        });
+
+        uploadTodayResultBtn.setOnClickListener(v -> {
+            loadingDialog.show();
+            String rTime = resultTimeTxt.getText().toString().trim();
+            String newNo = nextNoTxt.getText().toString().trim();
+
+            if (TextUtils.isEmpty(rTime)) {
+                resultTimeTxt.setError("Time Required");
+                loadingDialog.dismiss();
+            } else if (TextUtils.isEmpty(newNo)) {
+                nextNoTxt.setError("Number Required");
+                loadingDialog.dismiss();
+            } else {
+                map.put("catItemId",catItemId);
+                map.put("resName", resTitle);
+                map.put("resultTime", rTime);
+                map.put("newNo", newNo);
+                uploadTodayResult(map);
+            }
+        });
+
+    }
+
+    private void uploadTodayResult(Map<String, String> map) {
+        Call<MessageModel> call = apiInterface.uploadCategoryTodayResult(map);
+        call.enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(@NonNull Call<MessageModel> call, @NonNull Response<MessageModel> response) {
+                assert response.body() != null;
+                if (response.isSuccessful()) {
+                    Toast.makeText(EditAndDeleteActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    todayResultDialog.dismiss();
+                } else {
+                    Toast.makeText(EditAndDeleteActivity.this, response.body().getError(), Toast.LENGTH_SHORT).show();
+                }
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MessageModel> call, @NonNull Throwable t) {
+                Toast.makeText(EditAndDeleteActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
+    }
+
+    public void showBannerImagesDialog(String catItemId, String catTitle) {
         uploadBannerImagesDialog = new Dialog(this);
         uploadBannerImagesDialog.setContentView(R.layout.upload_image_dialog);
         uploadBannerImagesDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -272,7 +346,72 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
         uploadBannerImagesDialog.show();
 
         chooseBannerImage = uploadBannerImagesDialog.findViewById(R.id.choose_banner_image);
-        imageTitleTxt = uploadBannerImagesDialog.findViewById(R.id.image_title);
+        imageURlTxt = uploadBannerImagesDialog.findViewById(R.id.image_url);
+        uploadBannerImageBtn = uploadBannerImagesDialog.findViewById(R.id.upload_image_btn);
+        cancelBtn = uploadBannerImagesDialog.findViewById(R.id.image_cancel);
+        cancelBtn.setOnClickListener(v -> {
+            uploadBannerImagesDialog.dismiss();
+        });
+        chooseBannerImage.setOnClickListener(v -> {
+            launcher.launch("image/*");
+        });
+
+        uploadBannerImageBtn.setOnClickListener(v -> {
+            loadingDialog.show();
+
+            String mUrl = imageURlTxt.getText().toString().trim();
+            if (encodedImage == null) {
+                Toast.makeText(EditAndDeleteActivity.this, "Please Select an Image", Toast.LENGTH_SHORT).show();
+
+            }  else if (TextUtils.isEmpty(mUrl)) {
+                imageURlTxt.setError("Image Url Required");
+                loadingDialog.dismiss();
+            } else {
+                map.put("catItemId",catItemId);
+                map.put("img", encodedImage);
+                map.put("title", catTitle);
+                map.put("url", mUrl);
+                uploadBannerImage(map);
+            }
+        });
+
+    }
+
+    private void uploadBannerImage(Map<String, String> map) {
+        Call<MessageModel> call = apiInterface.uploadBannerImage(map);
+        call.enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(@NonNull Call<MessageModel> call, @NonNull Response<MessageModel> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(EditAndDeleteActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+                    uploadBannerImagesDialog.dismiss();
+                    fetchBannerImages();
+                } else {
+                    assert response.body() != null;
+                    Toast.makeText(EditAndDeleteActivity.this, response.body().getError(), Toast.LENGTH_SHORT).show();
+                }
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MessageModel> call, @NonNull Throwable t) {
+                Toast.makeText(EditAndDeleteActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
+    }
+
+    public void updateBannerImagesDialog(String itemId, String img, String imgUrl) {
+        uploadBannerImagesDialog = new Dialog(this);
+        uploadBannerImagesDialog.setContentView(R.layout.upload_image_dialog);
+        uploadBannerImagesDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        uploadBannerImagesDialog.getWindow().setBackgroundDrawable(
+                ContextCompat.getDrawable(this, R.drawable.item_bg));
+        uploadBannerImagesDialog.setCancelable(false);
+        uploadBannerImagesDialog.show();
+
+        chooseBannerImage = uploadBannerImagesDialog.findViewById(R.id.choose_banner_image);
         imageURlTxt = uploadBannerImagesDialog.findViewById(R.id.image_url);
         uploadBannerImageBtn = uploadBannerImagesDialog.findViewById(R.id.upload_image_btn);
         cancelBtn = uploadBannerImagesDialog.findViewById(R.id.image_cancel);
@@ -283,7 +422,6 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
 
         encodedImage = img;
         Glide.with(this).load("https://gedgetsworld.in/SM_Guru/Banner_Images/" + img).into(chooseBannerImage);
-        imageTitleTxt.setText(imgTitle);
         imageURlTxt.setText(imgUrl);
         chooseBannerImage.setOnClickListener(v -> {
             launcher.launch("image/*");
@@ -291,14 +429,10 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
 
         uploadBannerImageBtn.setOnClickListener(v -> {
             loadingDialog.show();
-            String mTitle = imageTitleTxt.getText().toString().trim();
             String mUrl = imageURlTxt.getText().toString().trim();
             if (encodedImage == null) {
                 Toast.makeText(EditAndDeleteActivity.this, "Please Select an Image", Toast.LENGTH_SHORT).show();
 
-            } else if (TextUtils.isEmpty(mTitle)) {
-                imageTitleTxt.setError("Title Required");
-                loadingDialog.dismiss();
             } else if (TextUtils.isEmpty(mUrl)) {
                 imageURlTxt.setError("Image Url Required");
                 loadingDialog.dismiss();
@@ -306,7 +440,6 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
                 if (encodedImage.length() <= 100) {
                     map.put("id", itemId);
                     map.put("img", encodedImage);
-                    map.put("title", mTitle);
                     map.put("deleteImg", img);
                     map.put("url", mUrl);
                     map.put("imgKey", "0");
@@ -315,7 +448,6 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
                 } else {
                     map.put("id", itemId);
                     map.put("img", encodedImage);
-                    map.put("title", mTitle);
                     map.put("deleteImg", img);
                     map.put("url", mUrl);
                     map.put("imgKey", "1");
@@ -345,7 +477,7 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
             newsUploadDialog.dismiss();
         });
         encodedImage = img;
-        Glide.with(this).load("https://gedgetsworld.in/SM_Guru/News_Images/"+img).into(chooseImage);
+        Glide.with(this).load("https://gedgetsworld.in/SM_Guru/News_Images/" + img).into(chooseImage);
         newsTitle.setText(title);
         newsDesc.setText(desc);
         chooseImage.setOnClickListener(v -> launcher.launch("image/*"));
@@ -363,20 +495,20 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
                 loadingDialog.dismiss();
             } else {
                 if (encodedImage.length() <= 100) {
-                    map.put("id",itemId);
+                    map.put("id", itemId);
                     map.put("img", encodedImage);
                     map.put("title", nTitle);
                     map.put("desc", nDesc);
-                    map.put("deleteImg",img);
-                    map.put("imgKey","0");
+                    map.put("deleteImg", img);
+                    map.put("imgKey", "0");
                     updateNewsData(map);
-                }else {
-                    map.put("id",itemId);
+                } else {
+                    map.put("id", itemId);
                     map.put("img", encodedImage);
                     map.put("title", nTitle);
                     map.put("desc", nDesc);
-                    map.put("deleteImg",img);
-                    map.put("imgKey","1");
+                    map.put("deleteImg", img);
+                    map.put("imgKey", "1");
                     updateNewsData(map);
                 }
             }
@@ -436,12 +568,12 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
         call.enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(@NonNull Call<MessageModel> call, @NonNull Response<MessageModel> response) {
-                assert response.body() != null;
                 if (response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), response.body() != null ? response.body().getMessage() : null, Toast.LENGTH_SHORT).show();
                     switch (type) {
                         case "category":
                             fetchCategory();
+                            fetchBannerImages();
                             break;
                         case "chart":
                             fetchPenalChartItems();
@@ -454,8 +586,6 @@ public class EditAndDeleteActivity extends AppCompatActivity implements CatItemA
                             break;
                     }
 
-                } else {
-                    Toast.makeText(getApplicationContext(), response.body().getError(), Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.dismiss();
             }
