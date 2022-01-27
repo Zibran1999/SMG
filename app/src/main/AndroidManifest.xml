@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SMG">
         <activity
+            android:name=".activities.TodayResultTabActivity"
+            android:exported="false"
+            android:label="@string/title_activity_today_result_tab"
+            android:theme="@style/Theme.SMG.NoActionBar" />
+        <activity
             android:name=".activities.TodayResultActivity"
             android:exported="false" />
         <activity

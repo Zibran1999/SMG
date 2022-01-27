@@ -1,12 +1,11 @@
 package com.sumitapps.sattamatkaguru.models;
 
 public class CatItemModel {
-    String id,CatName,CatUrl;
+    String id,CatName;
 
-    public CatItemModel(String id, String catName, String catUrl) {
+    public CatItemModel(String id, String catName) {
         this.id = id;
         CatName = catName;
-        CatUrl = catUrl;
     }
 
     public String getId() {
@@ -15,9 +14,5 @@ public class CatItemModel {
 
     public String getCatName() {
         return CatName;
-    }
-
-    public String getCatUrl() {
-        return CatUrl;
     }
 }

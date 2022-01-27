@@ -17,17 +17,23 @@ import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.sumitapps.sattamatkaguru.BuildConfig;
 import com.sumitapps.sattamatkaguru.R;
+import com.sumitapps.sattamatkaguru.adapters.CatItemAdapter;
 import com.sumitapps.sattamatkaguru.adapters.TodayResultAdapter;
 import com.sumitapps.sattamatkaguru.databinding.ActivityTodayResultBinding;
 import com.sumitapps.sattamatkaguru.models.BannerImageModel;
+import com.sumitapps.sattamatkaguru.models.CatItemModel;
+import com.sumitapps.sattamatkaguru.models.ModelFactory;
 import com.sumitapps.sattamatkaguru.models.PageViewModel;
+import com.sumitapps.sattamatkaguru.models.TodayPageViewModel;
 import com.sumitapps.sattamatkaguru.models.TodayResultModel;
 import com.sumitapps.sattamatkaguru.utils.CommonMethod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class TodayResultActivity extends AppCompatActivity implements TodayResultAdapter.TodayResultInterface {
+public class TodayResultActivity extends AppCompatActivity implements TodayResultAdapter.TodayResultInterface, CatItemAdapter.CatItemInterface {
     ActivityTodayResultBinding binding;
     Dialog loadingDialog;
     PageViewModel pageViewModel;
@@ -38,6 +44,12 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
     String url1;
     List<SlideModel> slideModels = new ArrayList<>();
 
+    CatItemAdapter catItemAdapter;
+    List<CatItemModel> catItemModels = new ArrayList<>();
+    TodayPageViewModel pageViewModel2;
+
+    Map<String, String> map = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,52 +59,31 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
         loadingDialog = CommonMethod.getLoadingDialog(this);
         pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         binding.showTodayResultRecyclerview.setLayoutManager(layoutManager);
         binding.backIcon.setOnClickListener(v -> {
             onBackPressed();
         });
         imageSlider = findViewById(R.id.image_slider);
 
-        showTodayResult();
-        showBannerImages();
+        fetchCatItems();
+//        showBannerImages();
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
-            showTodayResult();
-            showBannerImages();
+            fetchCatItems();
+//            showBannerImages();
             binding.swipeRefreshLayout.setRefreshing(false);
         });
 
     }
 
-    private void showBannerImages() {
+
+    private void showTodayResult(String id) {
+        map.put("catId", id);
+        bannerImageModelList2.clear();
+        pageViewModel2 = new ViewModelProvider(this, new ModelFactory(getApplication(), map)).get(TodayPageViewModel.class);
+
         loadingDialog.show();
-        pageViewModel.getBannerImageList().observe(TodayResultActivity.this, bannerImageModleList -> {
-            if (bannerImageModleList != null) {
-                bannerImageModelList2.clear();
-                bannerImageModelList2.addAll(bannerImageModleList.getData());
-                slideModels.clear();
-                for (BannerImageModel bannerImageModel : bannerImageModleList.getData()) {
-                    slideModels.add(new SlideModel("https://gedgetsworld.in/SM_Guru/Banner_Images/" + bannerImageModel.getImage(), bannerImageModel.getTitle(), ScaleTypes.CENTER_INSIDE));
-                }
-
-//                slideModels.add(new SlideModel("https://bit.ly/2YoJ77H", "The animal population decreased by 58 percent in 42 years.", ScaleTypes.CENTER_INSIDE));
-//                slideModels.add(new SlideModel("https://bit.ly/2BteuF2", "Elephants and tigers may become extinct.", ScaleTypes.CENTER_INSIDE));
-//                slideModels.add(new SlideModel("https://bit.ly/3fLJf72", "And people do that.", ScaleTypes.CENTER_INSIDE));
-
-                imageSlider.setImageList(slideModels);
-                imageSlider.setItemClickListener(i -> {
-                    url1 = bannerImageModelList2.get(i).getImageUrl();
-                    openWebPage(url1);
-                });
-            }
-        });
-
-
-    }
-
-    private void showTodayResult() {
-        loadingDialog.show();
-        pageViewModel.getTodayResultList().observe(TodayResultActivity.this, todayResultModelList -> {
+        pageViewModel2.getTodayResultList().observe(TodayResultActivity.this, todayResultModelList -> {
             if (todayResultModelList != null) {
                 todayResultModels.clear();
                 todayResultModels.addAll(todayResultModelList.getData());
@@ -104,6 +95,30 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
                 loadingDialog.dismiss();
             }
 
+        });
+    }
+    private void fetchCatItems() {
+        loadingDialog.show();
+        pageViewModel.getCatItemList().observe(this, catItemModelList -> {
+            if (catItemModelList != null) {
+                catItemModels.clear();
+                catItemModels.addAll(catItemModelList.getData());
+                Log.d("CatData", catItemModelList.getData().toString());
+                catItemAdapter = new CatItemAdapter("Today",this, this, getApplication());
+                binding.showTodayResultRecyclerview.setAdapter(catItemAdapter);
+                catItemAdapter.updateCatItemList(catItemModels);
+                loadingDialog.dismiss();
+                slideModels.clear();
+                showTodayResult(catItemModelList.getData().get(0).getId());
+                BannerImage(catItemModelList.getData().get(0).getId(), catItemModelList.getData().get(0).getCatName());
+                binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+                    BannerImage(catItemModelList.getData().get(0).getId(), catItemModelList.getData().get(0).getCatName());
+                    showTodayResult(catItemModelList.getData().get(0).getId());
+                    binding.swipeRefreshLayout.setRefreshing(false);
+                });
+
+
+            }
         });
     }
 
@@ -145,4 +160,46 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
         overridePendingTransition(0, 0);
         finish();
     }
+
+    @Override
+    public void onItemClicked(CatItemModel catItemModel) {
+        slideModels.clear();
+        BannerImage(catItemModel.getId(), catItemModel.getCatName());
+        showTodayResult(catItemModel.getId());
+
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+            BannerImage(catItemModel.getId(), catItemModel.getCatName());
+            showTodayResult(catItemModel.getId());
+            binding.swipeRefreshLayout.setRefreshing(false);
+        });
+    }
+
+    private void BannerImage(String id, String catName) {
+        map.put("catId", id);
+        bannerImageModelList2.clear();
+        pageViewModel2 = new ViewModelProvider(this, new ModelFactory(getApplication(), map)).get(TodayPageViewModel.class);
+        pageViewModel2.getBannerImageList().observe(this, bannerImageModelList -> {
+
+            if (bannerImageModelList != null) {
+                slideModels.clear();
+                binding.todayResultTitle.setText(catName);
+                for (BannerImageModel bannerImageModel : bannerImageModelList.getData()) {
+                    Log.d("banner Image2", bannerImageModel.getImage());
+                    bannerImageModelList2.addAll(bannerImageModelList.getData());
+                    slideModels.add(new SlideModel("https://gedgetsworld.in/SM_Guru/Banner_Images/" + bannerImageModel.getImage(), ScaleTypes.FIT));
+                }
+                Log.d("ban", String.valueOf(slideModels.size()));
+                imageSlider.setImageList(slideModels);
+                imageSlider.setItemClickListener(i -> {
+                    url1 = bannerImageModelList2.get(i).getImageUrl();
+                    openWebPage(url1);
+                });
+                loadingDialog.dismiss();
+
+            }
+        });
+
+    }
+
+
 }

@@ -4,15 +4,21 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/drawable-v24/ic_baseline_arrow_back_24.xml" value="0.21510416666666668" />
+        <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/drawable-v24/ic_baseline_image_24.xml" value="0.21510416666666668" />
         <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/activity_home.xml" value="0.19895833333333332" />
         <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/activity_main.xml" value="0.19895833333333332" />
         <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/activity_news.xml" value="0.18489583333333334" />
         <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/activity_panel_chart.xml" value="0.19895833333333332" />
         <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/activity_result.xml" value="0.19895833333333332" />
+        <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/activity_tod_result.xml" value="0.19895833333333332" />
         <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/activity_today_result.xml" value="0.18981481481481483" />
+        <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/activity_today_result_tab.xml" value="0.19589743589743588" />
         <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/activity_web_view.xml" value="0.18489583333333334" />
+        <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/category_item_layout.xml" value="0.75" />
+        <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/fragment_today_result_tab.xml" value="0.18489583333333334" />
         <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/header.xml" value="0.19895833333333332" />
         <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/news_layout.xml" value="0.19895833333333332" />
+        <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/layout/today_result_item_layout.xml" value="0.19895833333333332" />
         <entry key="..\:/ANDROID PROJECTS/SMG/app/src/main/res/menu/menu.xml" value="0.19895833333333332" />
         <entry key="..\:/Android Applications/SMG/app/src/main/res/drawable-v24/ic_baseline_menu_24.xml" value="0.23958333333333334" />
         <entry key="..\:/Android Applications/SMG/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.23958333333333334" />

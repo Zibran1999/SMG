@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -91,8 +93,8 @@ public class Repository {
         return chartItemLiveData;
     }
 
-    public LiveData<TodayResultModelList> getTodayResultLiveData(){
-        Call<TodayResultModelList> call = apiInterface.getAllTodayResult();
+    public LiveData<TodayResultModelList> getTodayResultLiveData(Map<String,String> map){
+        Call<TodayResultModelList> call = apiInterface.getAllTodayResult(map);
         call.enqueue(new Callback<TodayResultModelList>() {
             @Override
             public void onResponse(@NonNull Call<TodayResultModelList> call, @NonNull Response<TodayResultModelList> response) {
@@ -111,13 +113,18 @@ public class Repository {
         return todayResultLiveData;
     }
 
-    public LiveData<BannerImageModleList> getBannerImagesLiveData(){
-        Call<BannerImageModleList> call = apiInterface.getAllBannerImages();
+
+    public LiveData<BannerImageModleList> getBannerImagesLiveData( Map<String, String> map){
+
+        Call<BannerImageModleList> call = apiInterface.getAllBannerImages(map);
         call.enqueue(new Callback<BannerImageModleList>() {
             @Override
-            public void onResponse(Call<BannerImageModleList> call, Response<BannerImageModleList> response) {
+            public void onResponse(@NonNull Call<BannerImageModleList> call, Response<BannerImageModleList> response) {
                 if (response.isSuccessful()){
                     bannerImageLiveData.setValue(response.body());
+                    for (BannerImageModel ban: response.body().getData()) {
+                        Log.d("bannerImage",ban.getImage()+ "   "+map.get("catId"));
+                    }
                 }else {
                     Log.d("onResponse", response.message());
                 }

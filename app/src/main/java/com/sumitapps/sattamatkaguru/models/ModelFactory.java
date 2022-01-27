@@ -11,15 +11,14 @@ import java.util.Map;
 public class ModelFactory implements ViewModelProvider.Factory {
     Application application;
     Map<String,String> map;
-
     public ModelFactory(Application application, Map<String, String> map) {
-        this.application = application;
         this.map = map;
+        this.application = application;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new PageViewModel(application,map);
+        return (T) new TodayPageViewModel(application,map);
     }
 }

@@ -107,6 +107,8 @@ public class CommonMethod {
 
     }
 
+
+
 //    public static void interstitialAds(Context context) {
 //
 //        MobileAds.initialize(context);

@@ -1,6 +1,10 @@
 package com.sumitapps.sattamatkaguru.models;
 
+import java.util.Map;
+
 import retrofit2.Call;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface ApiInterface {
@@ -9,7 +13,7 @@ public interface ApiInterface {
     Call<NewsModelList> getAllNews();
 
     @POST("fetch_today_result.php")
-    Call<TodayResultModelList> getAllTodayResult();
+    Call<TodayResultModelList> getAllTodayResult(@FieldMap Map<String,String> map);
 
     @POST("fetch_charts.php")
     Call<ChartItemModelList> getAllCharts();
@@ -17,6 +21,7 @@ public interface ApiInterface {
     @POST("fetch_category_item.php")
     Call<CatItemModelList> getAllCatItems();
 
-    @POST("fetch_banner_images.php")
-    Call<BannerImageModleList> getAllBannerImages();
+    @FormUrlEncoded
+    @POST("fetch_cat_banner_img.php")
+    Call<BannerImageModleList> getAllBannerImages(@FieldMap Map<String, String> map);
 }

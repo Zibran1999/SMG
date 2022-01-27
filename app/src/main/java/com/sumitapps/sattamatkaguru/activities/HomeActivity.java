@@ -49,7 +49,6 @@ import com.sumitapps.sattamatkaguru.models.PageViewModel;
 import com.sumitapps.sattamatkaguru.utils.CommonMethod;
 import com.sumitapps.sattamatkaguru.utils.MyReceiver;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,7 +147,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 catItemModels.clear();
                 catItemModels.addAll(catItemModelList.getData());
                 Log.d("CatData", catItemModelList.getData().toString());
-                catItemAdapter = new CatItemAdapter(this, this);
+                catItemAdapter = new CatItemAdapter("Home",this, this, getApplication());
                 binding.catItemRecyclerView.setAdapter(catItemAdapter);
                 catItemAdapter.updateCatItemList(catItemModels);
                 loadingDialog.dismiss();
@@ -270,7 +269,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 finish();
                 break;
             case R.id.nav_contact:
-               CommonMethod.contactUs(this);
+                CommonMethod.contactUs(this);
                 break;
             case R.id.nav_rate:
                 CommonMethod.rateApp(getApplicationContext());
@@ -349,11 +348,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onItemClicked(CatItemModel catItemModel) {
-        Intent intent = new Intent(HomeActivity.this, WebViewActivity.class);
-        intent.putExtra("title", catItemModel.getCatName());
-        intent.putExtra("url", catItemModel.getCatUrl());
-        startActivity(intent);
+
     }
+
 
     private class ExampleNotificationOpenedHandler implements OneSignal.OSNotificationOpenedHandler {
 
