@@ -21,8 +21,8 @@ public interface ApiInterface {
 
 
     @FormUrlEncoded
-    @POST("upload_today_result.php")
-    Call<MessageModel> uploadTodayResult(@FieldMap Map<String, String> map);
+    @POST("upload_category_today_result.php")
+    Call<MessageModel> uploadCategoryTodayResult(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("upload_chart.php")

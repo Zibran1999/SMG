@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,9 +41,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-    Dialog uploadCatDialog, newsUploadDialog, todayResultDialog, uploadBannerImagesDialog, loadingDialog;
-    EditText catNameTxt, catUrlTxt, todayResultTitleTxt, resultTimeTxt, nextNoTxt;
-    Button uploadCatBtn, cancelBtn, uploadNewsBtn, uploadTodayResultBtn, uploadBannerImageBtn;
+    Dialog uploadCatDialog, newsUploadDialog, uploadBannerImagesDialog, loadingDialog;
+    EditText catNameTxt, catUrlTxt;
+    Button uploadCatBtn, cancelBtn, uploadNewsBtn;
     ApiInterface apiInterface;
     Map<String, String> map = new HashMap<>();
     ImageView chooseImage, chooseBannerImage;
@@ -101,153 +102,17 @@ public class MainActivity extends AppCompatActivity {
             catUploadDialog("Chart");
         });
 
-        binding.uploadTodayResult.setOnClickListener(v -> {
-            uploadTodayResultDialog();
-        });
-        binding.uploadBnImages.setOnClickListener(v -> {
-            uploadBannerImagesDialog();
-        });
         binding.editAndDelete.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this,EditAndDeleteActivity.class));
+            startActivity(new Intent(MainActivity.this, EditAndDeleteActivity.class));
         });
         binding.editDeleteTodayResult.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this,UpdateTodayResultActivity.class));
+            startActivity(new Intent(MainActivity.this, UpdateTodayResultActivity.class));
         });
     }
 
-    public void uploadBannerImagesDialog() {
-        uploadBannerImagesDialog = new Dialog(this);
-        uploadBannerImagesDialog.setContentView(R.layout.upload_image_dialog);
-        uploadBannerImagesDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        uploadBannerImagesDialog.getWindow().setBackgroundDrawable(
-                ContextCompat.getDrawable(this, R.drawable.item_bg));
-        uploadBannerImagesDialog.setCancelable(false);
-        uploadBannerImagesDialog.show();
 
-        chooseBannerImage = uploadBannerImagesDialog.findViewById(R.id.choose_banner_image);
-        imageTitleTxt = uploadBannerImagesDialog.findViewById(R.id.image_title);
-        imageURlTxt = uploadBannerImagesDialog.findViewById(R.id.image_url);
-        uploadBannerImageBtn = uploadBannerImagesDialog.findViewById(R.id.upload_image_btn);
-        cancelBtn = uploadBannerImagesDialog.findViewById(R.id.image_cancel);
-        cancelBtn.setOnClickListener(v -> {
-            uploadBannerImagesDialog.dismiss();
-        });
-        chooseBannerImage.setOnClickListener(v -> {
-            launcher.launch("image/*");
-        });
 
-        uploadBannerImageBtn.setOnClickListener(v -> {
-            loadingDialog.show();
-            String mTitle = imageTitleTxt.getText().toString().trim();
-            String mUrl = imageURlTxt.getText().toString().trim();
-            if (encodedImage == null) {
-                Toast.makeText(MainActivity.this, "Please Select an Image", Toast.LENGTH_SHORT).show();
 
-            } else if (TextUtils.isEmpty(mTitle)) {
-                imageTitleTxt.setError("Title Required");
-                loadingDialog.dismiss();
-            } else if (TextUtils.isEmpty(mUrl)) {
-                imageURlTxt.setError("Image Url Required");
-                loadingDialog.dismiss();
-            } else {
-                map.put("img", encodedImage);
-                map.put("title", mTitle);
-                map.put("url",mUrl);
-                uploadBannerImage(map);
-            }
-        });
-
-    }
-
-    private void uploadBannerImage(Map<String, String> map) {
-        Call<MessageModel> call = apiInterface.uploadBannerImage(map);
-        call.enqueue(new Callback<MessageModel>() {
-            @Override
-            public void onResponse(@NonNull Call<MessageModel> call, @NonNull Response<MessageModel> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-                    uploadBannerImagesDialog.dismiss();
-                } else {
-                    assert response.body() != null;
-                    Toast.makeText(MainActivity.this, response.body().getError(), Toast.LENGTH_SHORT).show();
-                }
-                loadingDialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<MessageModel> call, @NonNull Throwable t) {
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                loadingDialog.dismiss();
-            }
-        });
-    }
-
-    private void uploadTodayResultDialog() {
-        todayResultDialog = new Dialog(this);
-        todayResultDialog.setContentView(R.layout.today_result_layout);
-        todayResultDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        todayResultDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.item_bg));
-        todayResultDialog.setCancelable(false);
-        todayResultDialog.show();
-
-        todayResultTitleTxt = todayResultDialog.findViewById(R.id.today_title);
-        resultTimeTxt = todayResultDialog.findViewById(R.id.result_time);
-        nextNoTxt = todayResultDialog.findViewById(R.id.new_no);
-        uploadTodayResultBtn = todayResultDialog.findViewById(R.id.upload_today_result_btn);
-        cancelBtn = todayResultDialog.findViewById(R.id.today_cancel);
-        cancelBtn.setOnClickListener(v -> {
-            todayResultDialog.dismiss();
-        });
-
-        uploadTodayResultBtn.setOnClickListener(v -> {
-            loadingDialog.show();
-            String resultTitle = todayResultTitleTxt.getText().toString().trim();
-            String rTime = resultTimeTxt.getText().toString().trim();
-            String newNo = nextNoTxt.getText().toString().trim();
-
-            if (TextUtils.isEmpty(resultTitle)) {
-                todayResultTitleTxt.setError("Title Required");
-                loadingDialog.dismiss();
-            } else if (TextUtils.isEmpty(rTime)) {
-                resultTimeTxt.setError("Time Required");
-                loadingDialog.dismiss();
-            } else if (TextUtils.isEmpty(newNo)) {
-                nextNoTxt.setError("Number Required");
-                loadingDialog.dismiss();
-            } else {
-                map.put("resName", resultTitle);
-                map.put("resultTime", rTime);
-                map.put("newNo", newNo);
-                uploadTodayResult(map);
-            }
-        });
-
-    }
-
-    private void uploadTodayResult(Map<String, String> map) {
-        Call<MessageModel> call = apiInterface.uploadTodayResult(map);
-        call.enqueue(new Callback<MessageModel>() {
-            @Override
-            public void onResponse(@NonNull Call<MessageModel> call, @NonNull Response<MessageModel> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, "Result Uploaded", Toast.LENGTH_SHORT).show();
-                    todayResultDialog.dismiss();
-                } else {
-                    assert response.body() != null;
-                    Toast.makeText(MainActivity.this, response.body().getError(), Toast.LENGTH_SHORT).show();
-                }
-                loadingDialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<MessageModel> call, @NonNull Throwable t) {
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                loadingDialog.dismiss();
-            }
-        });
-    }
 
     private void newsUploadDialog() {
         newsUploadDialog = new Dialog(this);
@@ -327,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
         if (type.equals("Category")) {
             catNameTxt.setHint("Category Name");
             catUrlTxt.setHint("Category Url");
+            catUrlTxt.setVisibility(View.GONE);
         } else {
             catNameTxt.setHint("Chart Name");
             catUrlTxt.setHint("Chart Url");
@@ -337,17 +203,23 @@ public class MainActivity extends AppCompatActivity {
             String catName = catNameTxt.getText().toString().trim();
             String catUrl = catUrlTxt.getText().toString().trim();
 
-            if (TextUtils.isEmpty(catName)) {
-                catNameTxt.setError("Field Required");
-                loadingDialog.dismiss();
-            } else if (TextUtils.isEmpty(catUrl)) {
-                catUrlTxt.setError("Filed Required");
-                loadingDialog.dismiss();
-            } else {
-                if (type.equals("Category")) {
+            if (type.equals("Category")) {
+
+                if (TextUtils.isEmpty(catName)) {
+                    catNameTxt.setError("Field Required");
+                    loadingDialog.dismiss();
+                } else {
                     map.put("catName", catName);
-                    map.put("catUrl", catUrl);
                     uploadCatData(map);
+                }
+
+            } else {
+                if (TextUtils.isEmpty(catName)) {
+                    catNameTxt.setError("Field Required");
+                    loadingDialog.dismiss();
+                } else if (TextUtils.isEmpty(catUrl)) {
+                    catUrlTxt.setError("Filed Required");
+                    loadingDialog.dismiss();
                 } else {
                     map.put("chartName", catName);
                     map.put("chartUrl", catUrl);

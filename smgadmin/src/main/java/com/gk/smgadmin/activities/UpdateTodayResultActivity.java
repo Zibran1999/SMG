@@ -46,7 +46,7 @@ public class UpdateTodayResultActivity extends AppCompatActivity implements Toda
     PageViewModel pageViewModel;
     Dialog loadingDialog,todayResultDialog;
     ApiInterface apiInterface;
-    EditText todayResultTitleTxt,resultTimeTxt,nextNoTxt;
+    EditText resultTimeTxt,nextNoTxt;
     Button uploadTodayResultBtn,cancelBtn;
     Map<String,String> map = new HashMap<>();
 
@@ -115,11 +115,9 @@ public class UpdateTodayResultActivity extends AppCompatActivity implements Toda
         todayResultDialog.setCancelable(false);
         todayResultDialog.show();
 
-        todayResultTitleTxt = todayResultDialog.findViewById(R.id.today_title);
         resultTimeTxt = todayResultDialog.findViewById(R.id.result_time);
         nextNoTxt = todayResultDialog.findViewById(R.id.new_no);
 
-        todayResultTitleTxt.setText(resTitle);
         resultTimeTxt.setText(resTime);
         nextNoTxt.setText(nextNo);
 
@@ -131,14 +129,10 @@ public class UpdateTodayResultActivity extends AppCompatActivity implements Toda
 
         uploadTodayResultBtn.setOnClickListener(v -> {
             loadingDialog.show();
-            String resultTitle = todayResultTitleTxt.getText().toString().trim();
             String rTime = resultTimeTxt.getText().toString().trim();
             String newNo = nextNoTxt.getText().toString().trim();
 
-            if (TextUtils.isEmpty(resultTitle)) {
-                todayResultTitleTxt.setError("Title Required");
-                loadingDialog.dismiss();
-            } else if (TextUtils.isEmpty(rTime)) {
+            if (TextUtils.isEmpty(rTime)) {
                 resultTimeTxt.setError("Time Required");
                 loadingDialog.dismiss();
             } else if (TextUtils.isEmpty(newNo)) {
@@ -146,7 +140,6 @@ public class UpdateTodayResultActivity extends AppCompatActivity implements Toda
                 loadingDialog.dismiss();
             } else {
                 map.put("id",itemId);
-                map.put("resName", resultTitle);
                 map.put("resultTime", rTime);
                 map.put("newNo", newNo);
                 updateTodayResult(map);

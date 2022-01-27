@@ -1,10 +1,11 @@
 package com.gk.smgadmin.models;
 
 public class TodayResultModel {
-    String id,ResName,ResultTime,NewNo;
+    String id,CatItemId,ResName,ResultTime,NewNo;
 
-    public TodayResultModel(String id, String resName, String resultTime, String newNo) {
+    public TodayResultModel(String id, String catItemId, String resName, String resultTime, String newNo) {
         this.id = id;
+        CatItemId = catItemId;
         ResName = resName;
         ResultTime = resultTime;
         NewNo = newNo;
@@ -12,6 +13,10 @@ public class TodayResultModel {
 
     public String getId() {
         return id;
+    }
+
+    public String getCatItemId() {
+        return CatItemId;
     }
 
     public String getResName() {

@@ -6,13 +6,10 @@ public class ChartModel {
     String id;
     @SerializedName("ChartName")
     String chartName;
-    @SerializedName("ChartUrl")
-    String chartUrl;
 
-    public ChartModel(String id, String chartName, String chartUrl) {
+    public ChartModel(String id, String chartName) {
         this.id = id;
         this.chartName = chartName;
-        this.chartUrl = chartUrl;
     }
 
     public String getId() {
@@ -21,9 +18,5 @@ public class ChartModel {
 
     public String getChartName() {
         return chartName;
-    }
-
-    public String getChartUrl() {
-        return chartUrl;
     }
 }
