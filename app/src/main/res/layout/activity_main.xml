@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFF00"
+    android:background="@color/purple_500"
     tools:context=".activities.MainActivity">
 
 
@@ -13,7 +13,7 @@
         android:id="@+id/tv_not_connected"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="No Connection"
+        android:text="@string/no_connection"
         android:padding="8dp"
         android:textColor="#00B8D4"
         android:background="@color/black"
@@ -30,7 +30,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/splash" />
+        app:srcCompat="@drawable/splash"
+        android:contentDescription="@string/todo" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie"

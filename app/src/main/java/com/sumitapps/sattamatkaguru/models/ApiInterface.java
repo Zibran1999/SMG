@@ -12,6 +12,7 @@ public interface ApiInterface {
     @POST("fetch_news.php")
     Call<NewsModelList> getAllNews();
 
+    @FormUrlEncoded
     @POST("fetch_today_result.php")
     Call<TodayResultModelList> getAllTodayResult(@FieldMap Map<String,String> map);
 

@@ -33,20 +33,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TodayResultActivity extends AppCompatActivity implements TodayResultAdapter.TodayResultInterface, CatItemAdapter.CatItemInterface {
+public class TodayResultActivity extends AppCompatActivity  implements CatItemAdapter.CatItemInterface {
     ActivityTodayResultBinding binding;
     Dialog loadingDialog;
+
     PageViewModel pageViewModel;
-    List<TodayResultModel> todayResultModels = new ArrayList<>();
+    TodayPageViewModel pageViewModel2;
+
     List<BannerImageModel> bannerImageModelList2 = new ArrayList<>();
-    TodayResultAdapter todayResultAdapter;
-    ImageSlider imageSlider;
-    String url1;
     List<SlideModel> slideModels = new ArrayList<>();
+    List<CatItemModel> catItemModels = new ArrayList<>();
 
     CatItemAdapter catItemAdapter;
-    List<CatItemModel> catItemModels = new ArrayList<>();
-    TodayPageViewModel pageViewModel2;
+    ImageSlider imageSlider;
+    String url1;
 
     Map<String, String> map = new HashMap<>();
 
@@ -73,30 +73,10 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
 //            showBannerImages();
             binding.swipeRefreshLayout.setRefreshing(false);
         });
+        binding.lottieWhatsapp.setOnClickListener(v -> onItemClicked());
 
     }
 
-
-    private void showTodayResult(String id) {
-        map.put("catId", id);
-        bannerImageModelList2.clear();
-        pageViewModel2 = new ViewModelProvider(this, new ModelFactory(getApplication(), map)).get(TodayPageViewModel.class);
-
-        loadingDialog.show();
-        pageViewModel2.getTodayResultList().observe(TodayResultActivity.this, todayResultModelList -> {
-            if (todayResultModelList != null) {
-                todayResultModels.clear();
-                todayResultModels.addAll(todayResultModelList.getData());
-                Log.d("TodayResultData", todayResultModelList.getData().toString());
-                todayResultAdapter = new TodayResultAdapter(this);
-                todayResultAdapter.updateTodayResultList(todayResultModels);
-                binding.showTodayResultRecyclerview.setAdapter(todayResultAdapter);
-                todayResultAdapter.updateTodayResultList(todayResultModels);
-                loadingDialog.dismiss();
-            }
-
-        });
-    }
     private void fetchCatItems() {
         loadingDialog.show();
         pageViewModel.getCatItemList().observe(this, catItemModelList -> {
@@ -122,10 +102,54 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
         });
     }
 
-    @Override
-    public void onItemClicked(TodayResultModel todayResultModel) {
+    private void BannerImage(String id, String catName) {
+        map.put("catId", id);
+        bannerImageModelList2.clear();
+        pageViewModel2 = new ViewModelProvider(this, new ModelFactory(getApplication(), map)).get(TodayPageViewModel.class);
+        pageViewModel2.getBannerImageList().observe(this, bannerImageModelList -> {
+
+            if (bannerImageModelList != null) {
+                slideModels.clear();
+                binding.todayResultTitle.setText(catName);
+                for (BannerImageModel bannerImageModel : bannerImageModelList.getData()) {
+                    Log.d("banner Image2", bannerImageModel.getImage());
+                    bannerImageModelList2.addAll(bannerImageModelList.getData());
+                    slideModels.add(new SlideModel("https://gedgetsworld.in/SM_Guru/Banner_Images/" + bannerImageModel.getImage(), ScaleTypes.FIT));
+                }
+                Log.d("ban", String.valueOf(slideModels.size()));
+                imageSlider.setImageList(slideModels);
+                imageSlider.setItemClickListener(i -> {
+                    url1 = bannerImageModelList2.get(i).getImageUrl();
+                    openWebPage(url1);
+                });
+                loadingDialog.dismiss();
+
+            }
+        });
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void showTodayResult(String id) {
+        map.put("catId", id);
+        pageViewModel2 = new ViewModelProvider(this, new ModelFactory(getApplication(), map)).get(TodayPageViewModel.class);
+
+        loadingDialog.show();
+        pageViewModel2.getTodayResultList().observe(TodayResultActivity.this, todayResultModelList -> {
+            if (todayResultModelList != null) {
+                for (TodayResultModel  todayModel: todayResultModelList.getData()) {
+                    binding.todayResultTime.setText(todayModel.getResultTime());
+                    binding.todayResultNo.setText("{"+todayModel.getNewNo()+"}");
+                }
+
+            }
+
+        });
+    }
+
+    public void onItemClicked() {
 //        देशावर(आज का रिजल्ट =54) यहाँ से अप्प इनस्टॉल करें
-        String shareMessage = todayResultModel.getResName() + " (आज का रिजल्ट = " + todayResultModel.getNewNo() + ") यहाँ से " + getString(R.string.app_name) + " App इनस्टॉल करें\n\n";
+        String shareMessage = binding.todayResultTitle.getText().toString().trim() + " (आज का रिजल्ट = " + binding.todayResultNo.getText().toString() + ") यहाँ से " + getString(R.string.app_name) + " App इनस्टॉल करें\n\n";
 
 
         try {
@@ -174,32 +198,6 @@ public class TodayResultActivity extends AppCompatActivity implements TodayResul
         });
     }
 
-    private void BannerImage(String id, String catName) {
-        map.put("catId", id);
-        bannerImageModelList2.clear();
-        pageViewModel2 = new ViewModelProvider(this, new ModelFactory(getApplication(), map)).get(TodayPageViewModel.class);
-        pageViewModel2.getBannerImageList().observe(this, bannerImageModelList -> {
-
-            if (bannerImageModelList != null) {
-                slideModels.clear();
-                binding.todayResultTitle.setText(catName);
-                for (BannerImageModel bannerImageModel : bannerImageModelList.getData()) {
-                    Log.d("banner Image2", bannerImageModel.getImage());
-                    bannerImageModelList2.addAll(bannerImageModelList.getData());
-                    slideModels.add(new SlideModel("https://gedgetsworld.in/SM_Guru/Banner_Images/" + bannerImageModel.getImage(), ScaleTypes.FIT));
-                }
-                Log.d("ban", String.valueOf(slideModels.size()));
-                imageSlider.setImageList(slideModels);
-                imageSlider.setItemClickListener(i -> {
-                    url1 = bannerImageModelList2.get(i).getImageUrl();
-                    openWebPage(url1);
-                });
-                loadingDialog.dismiss();
-
-            }
-        });
-
-    }
 
 
 }

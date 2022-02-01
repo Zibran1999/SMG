@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Satta Matka Guru</string>
+    <string name="app_name">SATTA MATKA GURU</string>
     <string name="version_1_1">version</string>
     <string name="result">SATTA Result</string>
     <string name="chart">SATTA Penal Chart</string>
@@ -9,12 +9,17 @@
     <string name="contact_us">Contact Us</string>
     <string name="rate_app">Rate App</string>
     <string name="share_app">Share with friends</string>
-    <string name="privacy_policy">Privacy Policy</string>
     <string name="today_result">आज का Result</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
-    <string name="todo">TODO</string>
     <string name="title_activity_today_result_tab">TodayResultTabActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="todo">TODO</string>
+    <string name="no_connection">No Connection</string>
+    <string name="latest_news">Latest News</string>
+    <string name="panel_chart">Panel Chart</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="result_time_10_10">Result Time: 10:10</string>
+    <string name="_25">{25}</string>
 </resources>

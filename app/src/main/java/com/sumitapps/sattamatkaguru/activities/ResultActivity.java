@@ -20,7 +20,7 @@ public class ResultActivity extends AppCompatActivity {
         binding.todayResult.setOnClickListener(v -> {
             startActivity(new Intent(ResultActivity.this,TodayResultActivity.class));
         });
-        binding.icBack.setOnClickListener(v -> {
+        binding.backIcon.setOnClickListener(v -> {
             onBackPressed();
         });
 
